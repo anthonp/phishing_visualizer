@@ -37,6 +37,8 @@ Some security tools do not export CSVs with SPF/DMARC/DKIM reporting, thus, I ha
 - **Frontend**: HTML, JavaScript, [PapaParse](https://github.com/mholt/PapaParse) (MIT), [D3.js](https://d3js.org/) (BSD-3-Clause)
 - **Data Format**: CSVs with headers: sender,recipient,subject,date
 
+![Animated Gif](/screen_recording.gif)
+
 ---
 
 ## 📂 Project Structure
