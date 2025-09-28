@@ -4,8 +4,6 @@ This project is a tool to **upload, merge, and visualize phishing email metadata
 
 It uses a **Flask backend** for handling CSV uploads and a **D3.js + PapaParse frontend** for rendering an interactive force-directed graph.
 
-Some security tools do not export CSVs with SPF/DMARC/DKIM reporting, thus, I have not supported it at this time. Secuity tools will often come with additional fields within CSVs, e.x. 15-20 CSV fields rather than just 4. You will have to modify this code to support your own initiatives, such as sanitizing CSV fields (to remove special characters and encoding), and define the CSV field headers to populate (`writer.writerow([])` has worked for me). Once you have additional fields such as "action on email", etc, I recommend adding the field under the tool tips display when you hover over connectors. The next phase are drill-downs and basic searching.
-
 ![Full View](/full_view.png)
 
 ---
@@ -26,6 +24,8 @@ Some security tools do not export CSVs with SPF/DMARC/DKIM reporting, thus, I ha
 - Uploaded CSVs may contain sensitive email addresses, subjects, or other confidential information.
 - Exposing this app publicly is not recommended.
 - Always run the app behind a secure network or VPN, or on your local machine only.
+
+Some security tools do not export CSVs with SPF/DMARC/DKIM reporting, thus, I have not supported it at this time. Secuity tools will often come with additional fields within CSVs, e.x. 15-20 CSV fields rather than just 4. You will have to modify this code to support your own initiatives, such as sanitizing CSV fields (to remove special characters and encoding), and define the CSV field headers to populate (`writer.writerow([])` has worked for me). Once you have additional fields such as "action on email", etc, I recommend adding the field under the tool tips display when you hover over connectors. The next phase are drill-downs and basic searching.
 
 ![Tool Tips](/tool_tips.png)
 
