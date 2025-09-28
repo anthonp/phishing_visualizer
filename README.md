@@ -55,7 +55,7 @@ It uses a **Flask backend** for handling CSV uploads and a **D3.js + PapaParse f
 1. Clone the repo:
 ```bash
 git clone https://github.com/anthonp/phishing_visualizer.git
-cd phishing-visualizer
+cd phishing_visualizer
 ```
 2. Create a virtual environment:
 ```bash
