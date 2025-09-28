@@ -1,0 +1,120 @@
+sender,recipient,subject,date
+phisher1@example.com,user1@company.com,Urgent: Verify Account,2025-09-01
+phisher1@example.com,user2@company.com,Shared Document: Action Required,2025-09-01
+phisher1@example.com,user3@company.com,Security Alert: Login Attempt,2025-09-02
+phisher1@example.com,user4@company.com,Password Reset Required,2025-09-03
+phisher1@example.com,user5@company.com,Invoice Payment Overdue,2025-09-04
+phisher1@example.com,user6@company.com,Package Delivery Failed,2025-09-05
+phisher1@example.com,user7@company.com,HR: Benefits Update,2025-09-06
+phisher1@example.com,user8@company.com,Action Required: Policy Update,2025-09-07
+phisher1@example.com,user9@company.com,Meeting Invite,2025-09-08
+phisher1@example.com,user10@company.com,Payroll Notification,2025-09-09
+
+phisher2@example.org,user1@company.com,Shared Document: Action Required,2025-09-02
+phisher2@example.org,user2@company.com,Urgent: Verify Account,2025-09-02
+phisher2@example.org,user3@company.com,Password Reset Required,2025-09-03
+phisher2@example.org,user4@company.com,Invoice Payment Overdue,2025-09-04
+phisher2@example.org,user5@company.com,Security Alert: Login Attempt,2025-09-05
+phisher2@example.org,user6@company.com,Package Delivery Failed,2025-09-06
+phisher2@example.org,user7@company.com,Payroll Notification,2025-09-07
+phisher2@example.org,user8@company.com,Action Required: Policy Update,2025-09-08
+phisher2@example.org,user11@company.com,Meeting Invite,2025-09-09
+phisher2@example.org,user12@company.com,HR: Benefits Update,2025-09-10
+
+phisher3@phishmail.net,user1@company.com,Invoice Payment Overdue,2025-09-03
+phisher3@phishmail.net,user2@company.com,Invoice Payment Overdue,2025-09-03
+phisher3@phishmail.net,user3@company.com,Shared Document: Action Required,2025-09-04
+phisher3@phishmail.net,user4@company.com,Urgent: Verify Account,2025-09-04
+phisher3@phishmail.net,user5@company.com,Password Reset Required,2025-09-05
+phisher3@phishmail.net,user6@company.com,Security Alert: Login Attempt,2025-09-06
+phisher3@phishmail.net,user7@company.com,Package Delivery Failed,2025-09-07
+phisher3@phishmail.net,user8@company.com,Meeting Invite,2025-09-08
+phisher3@phishmail.net,user9@company.com,Payroll Notification,2025-09-09
+phisher3@phishmail.net,user10@company.com,Action Required: Policy Update,2025-09-10
+
+phisher4@malicious.org,user1@company.com,Password Reset Required,2025-09-05
+phisher4@malicious.org,user2@company.com,Security Alert: Login Attempt,2025-09-05
+phisher4@malicious.org,user3@company.com,Invoice Payment Overdue,2025-09-06
+phisher4@malicious.org,user4@company.com,Shared Document: Action Required,2025-09-06
+phisher4@malicious.org,user5@company.com,Urgent: Verify Account,2025-09-07
+phisher4@malicious.org,user6@company.com,Payroll Notification,2025-09-08
+phisher4@malicious.org,user7@company.com,Package Delivery Failed,2025-09-09
+phisher4@malicious.org,user8@company.com,Action Required: Policy Update,2025-09-09
+phisher4@malicious.org,user11@company.com,Meeting Invite,2025-09-10
+phisher4@malicious.org,user12@company.com,HR: Benefits Update,2025-09-11
+
+phisher5@scamco.io,user1@company.com,Payroll Notification,2025-09-06
+phisher5@scamco.io,user2@company.com,Shared Document: Action Required,2025-09-06
+phisher5@scamco.io,user3@company.com,Urgent: Verify Account,2025-09-07
+phisher5@scamco.io,user4@company.com,Password Reset Required,2025-09-07
+phisher5@scamco.io,user5@company.com,Security Alert: Login Attempt,2025-09-08
+phisher5@scamco.io,user6@company.com,Invoice Payment Overdue,2025-09-09
+phisher5@scamco.io,user7@company.com,Meeting Invite,2025-09-10
+phisher5@scamco.io,user8@company.com,Action Required: Policy Update,2025-09-10
+phisher5@scamco.io,user13@company.com,Payroll Notification,2025-09-11
+phisher5@scamco.io,user14@company.com,Invoice Payment Overdue,2025-09-12
+
+phisher6@fraudster.net,user15@company.com,Urgent: Verify Account,2025-08-25
+phisher6@fraudster.net,user16@company.com,Invoice Payment Overdue,2025-08-26
+phisher6@fraudster.net,user17@company.com,Shared Document: Action Required,2025-08-27
+phisher6@fraudster.net,user18@company.com,Password Reset Required,2025-08-28
+phisher6@fraudster.net,user19@company.com,Package Delivery Failed,2025-08-29
+phisher6@fraudster.net,user20@company.com,Security Alert: Login Attempt,2025-08-30
+
+phisher7@darkmail.com,user21@company.com,Shared Document: Action Required,2025-08-26
+phisher7@darkmail.com,user22@company.com,Password Reset Required,2025-08-27
+phisher7@darkmail.com,user23@company.com,Urgent: Verify Account,2025-08-28
+phisher7@darkmail.com,user24@company.com,Invoice Payment Overdue,2025-08-29
+phisher7@darkmail.com,user25@company.com,Meeting Invite,2025-08-30
+phisher7@darkmail.com,user26@company.com,Security Alert: Login Attempt,2025-08-31
+
+phisher8@phishy.org,user27@company.com,Invoice Payment Overdue,2025-08-27
+phisher8@phishy.org,user28@company.com,Urgent: Verify Account,2025-08-28
+phisher8@phishy.org,user29@company.com,Password Reset Required,2025-08-29
+phisher8@phishy.org,user30@company.com,Shared Document: Action Required,2025-08-30
+
+phisher9@attackmail.io,user1@company.com,Password Reset Required,2025-08-28
+phisher9@attackmail.io,user2@company.com,Shared Document: Action Required,2025-08-29
+phisher9@attackmail.io,user3@company.com,Invoice Payment Overdue,2025-08-30
+phisher9@attackmail.io,user4@company.com,Urgent: Verify Account,2025-08-31
+phisher9@attackmail.io,user5@company.com,Payroll Notification,2025-09-01
+
+phisher10@spamcorp.net,user6@company.com,Payroll Notification,2025-08-29
+phisher10@spamcorp.net,user7@company.com,Shared Document: Action Required,2025-08-30
+phisher10@spamcorp.net,user8@company.com,Urgent: Verify Account,2025-08-31
+phisher10@spamcorp.net,user9@company.com,Password Reset Required,2025-09-01
+phisher10@spamcorp.net,user10@company.com,Invoice Payment Overdue,2025-09-02
+
+phisher11@malwaremail.org,user11@company.com,Urgent: Verify Account,2025-09-05
+phisher11@malwaremail.org,user12@company.com,Invoice Payment Overdue,2025-09-06
+phisher11@malwaremail.org,user13@company.com,Shared Document: Action Required,2025-09-07
+
+phisher12@phishme.net,user14@company.com,Shared Document: Action Required,2025-09-06
+phisher12@phishme.net,user15@company.com,Password Reset Required,2025-09-07
+phisher12@phishme.net,user16@company.com,Urgent: Verify Account,2025-09-08
+
+phisher13@fakesender.com,user17@company.com,Invoice Payment Overdue,2025-09-07
+phisher13@fakesender.com,user18@company.com,Urgent: Verify Account,2025-09-08
+phisher13@fakesender.com,user19@company.com,Password Reset Required,2025-09-09
+
+phisher14@spoofmail.org,user20@company.com,Password Reset Required,2025-09-08
+phisher14@spoofmail.org,user21@company.com,Shared Document: Action Required,2025-09-09
+
+phisher15@fraudmail.com,user22@company.com,Payroll Notification,2025-09-09
+phisher15@fraudmail.com,user23@company.com,Shared Document: Action Required,2025-09-10
+
+phisher16@fakehost.io,user24@company.com,Urgent: Verify Account,2025-09-10
+phisher16@fakehost.io,user25@company.com,Password Reset Required,2025-09-11
+
+phisher17@scammer.net,user26@company.com,Urgent: Verify Account,2025-08-20
+phisher17@scammer.net,user27@company.com,Password Reset Required,2025-08-21
+
+phisher18@evilmail.org,user28@company.com,Package Delivery Failed,2025-09-01
+phisher18@evilmail.org,user29@company.com,Meeting Invite,2025-09-02
+phisher18@evilmail.org,user30@company.com,Shared Document: Action Required,2025-09-03
+
+phisher19@dodgemail.com,user1@company.com,Cross-Group Notification,2025-09-11
+phisher19@dodgemail.com,user10@company.com,Cross-Group Notification,2025-09-11
+
+phisher20@phishingsite.net,user8@company.com,Payroll Notification,2025-09-14
+phisher20@phishingsite.net,user9@company.com,Payroll Notification,2025-09-14
