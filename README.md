@@ -18,6 +18,13 @@ It uses a **Flask backend** for handling CSV uploads and a **D3.js + PapaParse f
 - **Highlighting**: Top 5 phishing senders highlighted in amber.
 - **WHOIS Links**: One-click external WHOIS lookups for top 10 domains.
 
+⚠️ Security Warning
+- Do not deploy this application on a publicly accessible server.
+- This tool is designed for internal, local analysis of phishing email metadata.
+- Uploaded CSVs may contain sensitive email addresses, subjects, or other confidential information.
+- Exposing this app publicly is not recommended.
+- Always run the app behind a secure network or VPN, or on your local machine only.
+
 ![Tool Tips](/tool_tips.png)
 
 ---
