@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Phishing Attack Graph Visualizer</title>
+<script src="https://d3js.org/d3.v7.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+<style>
+body { font-family: Arial, sans-serif; margin: 0; display: flex; height: 100vh; overflow: hidden; }
+#sidebar { width: 300px; padding: 20px; background: #f7f7f7; overflow-y: auto; border-right: 1px solid #ccc; }
+#graph-container { flex: 1; position: relative; }
+#graph { width: 100%; height: 100%; cursor: grab; }
+#graph:active { cursor: grabbing; }
+.node { stroke: #fff; stroke-width: 1.5px; }
+.node.sender { fill: #ff6b6b; }
+.node.recipient { fill: #4ecdc4; }
+.link { stroke: #999; stroke-opacity: 0.6; stroke-width: 2px; }
+.label { font-size: 10px; pointer-events: none; }
+.tooltip { position: absolute; background: rgba(0,0,0,0.8); color: white; padding: 5px; border-radius: 3px; font-size: 12px; pointer-events: none; opacity: 0; }
+.sender-item { display: flex; justify-content: space-between; align-items: center; padding: 4px 0; }
+.sender-name { font-weight: bold; cursor: pointer; text-decoration: underline; }
+.legend { position: absolute; bottom: 10px; left: 10px; background: rgba(255,255,255,0.9); padding: 10px; border-radius: 5px; font-size: 12px; border: 1px solid #ccc; }
+.amber { background: #ffbf00; padding: 2px 5px; border-radius: 3px; }
+.yellow { background: #ffff66; padding: 2px 5px; border-radius: 3px; }
+</style>
+</head>
+<body>
+
+<div id="sidebar">
+  <h2>Top Phishing Domains</h2>
+  <div id="domainList"></div>
+  <div class="legend">
+    <strong>Legend:</strong><br>
+    <span class="amber">Top 5</span> | <span class="yellow">Others</span><br>
+    Red = Sender, Teal = Recipient
+  </div>
+</div>
+
+<div id="graph-container">
+  <div id="graph"></div>
+  <div id="tooltip" class="tooltip"></div>
+</div>
+
+<div id="controls" style="position:absolute;top:10px;right:10px;background:white;padding:10px;border-radius:5px;z-index:10;">
+  <input type="file" id="csvFile" accept=".csv">
+  <button onclick="uploadCSV()">Upload & Append CSV</button>
+  <button onclick="loadGraph()">Load Graph</button>
+</div>
+
+<script>
+let width = window.innerWidth - 320, height = window.innerHeight;
+let svg, container, simulation, nodes, links, node, link;
+
+async function uploadCSV() {
+  const fileInput = document.getElementById('csvFile');
+  const file = fileInput.files[0];
+  if (!file) { alert('Select a CSV.'); return; }
+  const formData = new FormData();
+  formData.append('file', file);
+  const response = await fetch('/upload', { method: 'POST', body: formData });
+  const result = await response.json();
+  if (response.ok) { alert(result.message); loadGraph(); } 
+  else { alert(result.error); }
+}
+
+async function loadGraph() {
+  const response = await fetch('/get_merged_csv');
+  let csvText = await response.text();
+  csvText = csvText.replace(/^\uFEFF/, '').replace(/\r\n/g, '\n');
+
+  Papa.parse(csvText, { header: true, skipEmptyLines: true,
+    complete: function(results) { if (results.errors.length > 0) { console.error(results.errors); alert('CSV parse error'); return; }
+      buildGraph(results.data);
+      buildDomainList(results.data);
+    }
+  });
+}
+
+function buildGraph(data) {
+  d3.select('#graph').selectAll('*').remove();
+
+  const nodeMap = new Map();
+  let nodeId = 0;
+  const edges = [];
+
+  data.forEach(row => {
+    const { sender, recipient, subject, date } = row;
+    if (!sender || !recipient) return;
+
+    if (!nodeMap.has(sender)) nodeMap.set(sender, { id: nodeId++, name: sender, type: 'sender', degree: 0 });
+    if (!nodeMap.has(recipient)) nodeMap.set(recipient, { id: nodeId++, name: recipient, type: 'recipient', degree: 0 });
+
+    const senderNode = nodeMap.get(sender);
+    const recipientNode = nodeMap.get(recipient);
+
+    edges.push({ source: senderNode.id, target: recipientNode.id, subject, date });
+    senderNode.degree++; recipientNode.degree++;
+  });
+
+  nodes = Array.from(nodeMap.values());
+  nodes.forEach(n => n.size = Math.max(5, Math.min(25, n.degree * 2)));
+  links = edges;
+
+  svg = d3.select('#graph').append('svg').attr('width', width).attr('height', height);
+  container = svg.append('g');
+
+  svg.call(d3.zoom().scaleExtent([0.2,5]).on('zoom', event => container.attr('transform', event.transform)));
+
+  simulation = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).id(d => d.id).distance(120))
+    .force('charge', d3.forceManyBody().strength(-400))
+    .force('center', d3.forceCenter(width / 2, height / 2));
+
+  link = container.append('g').selectAll('line').data(links).enter().append('line')
+    .attr('class', 'link')
+    .on('mouseover', showLinkTooltip)
+    .on('mouseout', hideTooltip);
+
+  node = container.append('g').selectAll('circle').data(nodes).enter().append('circle')
+    .attr('class', d => `node ${d.type}`)
+    .attr('r', d => d.size)
+    .on('mouseover', showNodeTooltip)
+    .on('mouseout', hideTooltip)
+    .call(drag(simulation));
+
+  container.append('g').selectAll('text').data(nodes).enter().append('text')
+    .attr('class', 'label')
+    .text(d => d.name)
+    .attr('dx', d => d.size + 2)
+    .attr('dy', 3);
+
+  simulation.on('tick', () => {
+    link.attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+    node.attr('cx', d => d.x).attr('cy', d => d.y);
+    container.selectAll('.label').attr('x', d => d.x).attr('y', d => d.y);
+  });
+}
+
+function buildDomainList(data) {
+  const domainCounts = {};
+  data.forEach(row => {
+    const domain = row.sender.split('@')[1] || row.sender;
+    if (!domainCounts[domain]) domainCounts[domain] = {count:0,lastDate:''};
+    domainCounts[domain].count++;
+    if (!domainCounts[domain].lastDate || row.date > domainCounts[domain].lastDate)
+      domainCounts[domain].lastDate = row.date;
+  });
+
+  const sorted = Object.entries(domainCounts).sort((a,b)=>b[1].count-a[1].count).slice(0,10);
+  const container = d3.select('#domainList');
+  container.selectAll('*').remove();
+
+  sorted.forEach((d,i)=>{
+    const colorClass = i<5?'amber':'yellow';
+    const div = container.append('div').attr('class','sender-item');
+    div.append('span').attr('class',`sender-name ${colorClass}`).text(`${d[0]} (${d[1].count})`)
+       .on('click', ()=>window.open(`https://whois.domaintools.com/${d[0]}`,'_blank'));
+    div.append('span').text(new Date(d[1].lastDate).toLocaleDateString());
+  });
+}
+
+function drag(sim) {
+  function dragstarted(event, d) { if(!event.active) sim.alphaTarget(0.3).restart(); d.fx=d.x; d.fy=d.y; }
+  function dragged(event,d){ d.fx=event.x; d.fy=event.y; }
+  function dragended(event,d){ if(!event.active) sim.alphaTarget(0); d.fx=null; d.fy=null; }
+  return d3.drag().on('start', dragstarted).on('drag', dragged).on('end', dragended);
+}
+
+function showNodeTooltip(event,d){
+  d3.select('#tooltip').html(`<strong>${d.name}</strong><br>Type: ${d.type}<br>Number of relations: ${d.degree}`)
+    .style('opacity',1).style('left',(event.pageX+10)+'px').style('top',(event.pageY-10)+'px');
+}
+
+function showLinkTooltip(event,d){
+  d3.select('#tooltip').html(`<strong>Email</strong><br>From: ${d.source.name}<br>To: ${d.target.name}<br>Subject: ${d.subject}<br>Date: ${d.date}`)
+    .style('opacity',1).style('left',(event.pageX+10)+'px').style('top',(event.pageY-10)+'px');
+}
+
+function hideTooltip(){ d3.select('#tooltip').style('opacity',0); }
+
+window.addEventListener('resize', ()=>{
+  width = window.innerWidth-320; height=window.innerHeight;
+  if(svg){ svg.attr('width',width).attr('height',height); simulation.force('center').x(width/2).y(height/2); simulation.alpha(1).restart(); }
+});
+</script>
+</body>
+</html>
